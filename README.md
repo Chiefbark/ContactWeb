@@ -1,0 +1,1 @@
+Project to manage simple contacts using PHP and MongoDB
