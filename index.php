@@ -1,3 +1,7 @@
+<?php
+require_once 'back/DAOContact.php';
+require_once 'back/Contact.php';
+?>
 <html>
 
 <head>
