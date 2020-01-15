@@ -38,6 +38,17 @@ class ContactList
     }
 
     /**
+     * 
+     */
+    public function getHTML()
+    {
+        $content = "";
+        foreach ($this->list as $node)
+            $content .= $node->getHTML();
+        return $content;
+    }
+
+    /**
      * Returns the String representation of the ContactList
      * @return mixed the String representation of the ContactList
      */
@@ -204,6 +215,22 @@ class Contact
     public function setComment($comment)
     {
         $this->comment = $comment;
+    }
+
+    /**
+     * 
+     */
+    public function getHTML()
+    {
+        $content = '';
+        $content .= "<tr class=\"custom\" aria-label=\"" . strtolower($this->getName()) . "\" id=\"" . $this->getId() . "\">";
+        $content .= "<td>" . $this->getName() . "</td>";
+        $content .= "<td>" . $this->getPhone() . "</td>";
+        $content .= "<td>" . $this->getMail() . "</td>";
+        $content .= "<td class=\"\" style=\"max-width: 200px;\">" . $this->getComment() . "</td>";
+        $content .= "</tr>";
+
+        return $content;
     }
 
     /**
