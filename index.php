@@ -105,7 +105,7 @@ require_once 'back/Contact.php';
             </div>
             <div class="input-field row">
                 <textarea id="comment" class="materialize-textarea"></textarea>
-                <label for="comment">Textarea</label>
+                <label for="comment">Comentario*</label>
             </div>
             <button class="btn waves-effect waves-light materialize-red lighten-2" type="submit" name="action">Añadir
                 <i class="material-icons right">send</i>
