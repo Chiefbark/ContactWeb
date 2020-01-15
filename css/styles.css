@@ -1,0 +1,119 @@
+/* label focus color */
+.input-field input[type="text"]:focus + label,
+.input-field textarea:focus + label {
+  color: #ee6e73 !important;
+}
+
+/* label underline focus color */
+.input-field input[type="text"]:focus,
+.input-field textarea:focus {
+  border-bottom: 1px solid #ee6e73 !important;
+  -webkit-box-shadow: 0 1px 0 0 #ee6e73 !important;
+          box-shadow: 0 1px 0 0 #ee6e73 !important;
+}
+
+html {
+  padding-bottom: 100px;
+}
+
+.custom.btn-floating {
+  position: absolute;
+  -webkit-transform: translate(-100%, -100%);
+          transform: translate(-100%, -100%);
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+}
+
+.custom.btn-floating i {
+  line-height: 60px;
+}
+
+.custom.btn-floating[title="delete"] {
+  right: 100px;
+  -webkit-transition: opacity 0.25s ease;
+  transition: opacity 0.25s ease;
+}
+
+.custom.btn-floating[title="delete"].hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.custom.btn-floating[title="edit"] {
+  right: 180px;
+  -webkit-transition: opacity 0.25s ease;
+  transition: opacity 0.25s ease;
+}
+
+.custom.btn-floating[title="edit"].hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.custom.input-field input:not(:focus) {
+  width: 0px;
+}
+
+.custom.input-field input:not(:focus) ~ .material-icons {
+  display: none;
+}
+
+tr.custom.hidden {
+  display: none !important;
+}
+
+tr.custom.tr-selected {
+  background-color: #fdeaeb !important;
+  -webkit-transition: -webkit-transform 0.5s ease;
+  transition: -webkit-transform 0.5s ease;
+  transition: transform 0.5s ease;
+  transition: transform 0.5s ease, -webkit-transform 0.5s ease;
+}
+
+tr.custom.tr-selected.remove {
+  -webkit-transform: translate(-100%, 0);
+          transform: translate(-100%, 0);
+}
+
+.custom.form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  -webkit-transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease;
+}
+
+.custom.form.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.custom.form.hidden form {
+  -webkit-transform: scale(0);
+          transform: scale(0);
+}
+
+.custom.form form {
+  background-color: #ffffff;
+  border: 2px solid #ee6e73;
+  border-radius: 2px;
+  padding: 0 50px 50px 50px;
+  margin-left: 0 !important;
+}
+/*# sourceMappingURL=styles.css.map */
