@@ -1,6 +1,28 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once 'back/DAOContact.php';
 require_once 'back/Contact.php';
+
+$node = new Contact();
+if (isset($_POST) && !empty($_POST)) {
+    if (!empty($_POST['_id'])) {
+        $node = new Contact($_POST['_id'], $_POST['name'], $_POST['phone'], $_POST['mail'], $_POST['comment']);
+        Contact::update($node);
+    } else {
+        $node = new Contact();
+        $node->fill($_POST['name'], $_POST['phone'], $_POST['mail'], $_POST['comment']);
+        Contact::insert($node);
+    }
+}
+if (isset($_GET['_id']) && !empty($_GET['_id'])) {
+    $node = Contact::select($_GET['_id']);
+} else
+    $node = new Contact();
+
+$list = ContactList::selectAll();
 ?>
 <html>
 
@@ -24,19 +46,7 @@ require_once 'back/Contact.php';
             }
             var rows = document.getElementsByTagName('tr');
             for (var tr of rows)
-                tr.addEventListener('click', function() {
-                    this.classList.toggle('tr-selected');
-                    var selected = document.getElementsByClassName('tr-selected').length;
-                    if (!selected) {
-                        document.querySelector('.btn-floating.custom[title="delete"]').classList.add('hidden');
-                        document.querySelector('.btn-floating.custom[title="edit"]').classList.add('hidden');
-                    } else if (selected > 1)
-                        document.querySelector('.btn-floating.custom[title="edit"]').classList.add('hidden');
-                    else {
-                        document.querySelector('.btn-floating.custom[title="delete"]').classList.remove('hidden');
-                        document.querySelector('.btn-floating.custom[title="edit"]').classList.remove('hidden');
-                    }
-                });
+                tr.addEventListener('click', trClick);
         })
     </script>
 
@@ -66,54 +76,39 @@ require_once 'back/Contact.php';
             </tr>
         </thead>
 
-        <tbody>
-            <tr class="custom" aria-label="jorge" id="1">
-                <td>Jorge</td>
-                <td>678164830</td>
-                <td>jchercoles@gmail.com</td>
-                <td class="" style="max-width: 200px;">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quae aliquid accusantium debitis perferendis sed voluptatibus, officia alias doloremque, quis ab cum ad facere quia. Repellendus in vel modi harum consectetur!</td>
-            </tr>
-            <tr class="custom" aria-label="javier" id="2">
-                <td>Javier</td>
-                <td>647291019</td>
-                <td>jaguilar@gmail.com</td>
-                <td class="" style="max-width: 200px;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem amet reiciendis officiis, nisi a excepturi mollitia fuga earum rerum natus tenetur possimus repudiandae, et quae? Ipsum eaque tenetur pariatur doloremque!</td>
-            </tr>
-            <tr class="custom" aria-label="alberto" id="3">
-                <td>Alberto</td>
-                <td>123674892</td>
-                <td>acocido@gmail.com</td>
-                <td class="" style="max-width: 200px;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea natus esse perspiciatis, error illum id facere doloribus aliquid, cupiditate et eum repellat eligendi voluptate odit culpa eaque fugiat vel sunt?</td>
-            </tr>
+        <tbody id="records">
+            <?php
+            echo $list->getHTML();
+            ?>
         </tbody>
     </table>
 
-    <div id="form" class="custom form row center-align hidden" onclick="hideForm(this);">
+    <div id="form" class="custom form row center-align <?php echo $node->getId() ? '' : 'hidden'; ?>" onclick="hideForm(this);">
         <form action="index.php" method="post" class="col s6 scale-transition">
             <h2>Añade un nuevo contacto</h2>
+            <input type="hidden" name="_id" value="<?php echo $node->getId(); ?>">
             <div class="input-field row">
-                <input id="name" type="text" class="validate">
+                <input id="name" name="name" type="text" class="validate" value="<?php echo $node->getName(); ?>">
                 <label for="name">Nombre*</label>
             </div>
             <div class="input-field row">
-                <input id="phone" type="text" class="validate">
+                <input id="phone" name="phone" type="text" class="validate" value="<?php echo $node->getPhone(); ?>">
                 <label for="phone">Teléfono*</label>
             </div>
             <div class="input-field row">
-                <input id="mail" type="text" class="validate">
+                <input id="mail" name="mail" type="text" class="validate" value="<?php echo $node->getMail(); ?>">
                 <label for="mail">Email*</label>
             </div>
             <div class="input-field row">
-                <textarea id="comment" class="materialize-textarea"></textarea>
+                <textarea id="comment" name="comment" class="materialize-textarea"><?php echo $node->getComment(); ?></textarea>
                 <label for="comment">Comentario*</label>
             </div>
-            <button class="btn waves-effect waves-light materialize-red lighten-2" type="submit" name="action">Añadir
-                <i class="material-icons right">send</i>
+            <button class="btn waves-effect waves-light materialize-red lighten-2" type="submit" name="action">Añadir <i class="material-icons right">send</i>
             </button>
         </form>
     </div>
 
-    <a href="javascript:edit();" class="btn-floating custom materialize-red lighten-2 hidden" title="edit"><i class="material-icons">edit</i></a>
+    <a href="#" class="btn-floating custom materialize-red lighten-2 hidden" title="edit"><i class="material-icons">edit</i></a>
     <a href="javascript:remove();" class="btn-floating custom materialize-red lighten-2 hidden" title="delete"><i class="material-icons">delete</i></a>
     <a href="javascript:showForm();" class="btn-floating custom materialize-red lighten-2" title="create"><i class="material-icons">add</i></a>
 
