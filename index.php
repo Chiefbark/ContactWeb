@@ -44,9 +44,9 @@ $list = ContactList::selectAll();
                     }, 1000);
                 });
             }
-            var rows = document.getElementsByTagName('tr');
-            for (var tr of rows)
-                tr.addEventListener('click', trClick);
+            var items = document.querySelectorAll('#search-content .search-item>div');
+            for (var item of items)
+                item.addEventListener('click', itemClick);
         })
     </script>
 
@@ -66,25 +66,15 @@ $list = ContactList::selectAll();
             </div>
         </nav>
     </div>
-    <table class="highlight centered responsive-table">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Teléfono</th>
-                <th>Email</th>
-                <th>Comentario</th>
-            </tr>
-        </thead>
 
-        <tbody id="records">
-            <?php
-            echo $list->getHTML();
-            ?>
-        </tbody>
-    </table>
+    <div class="row" id="search-content">
+        <?php
+        echo $list->getHTML();
+        ?>
+    </div>
 
     <div id="form" class="custom form row center-align <?php echo $node->getId() ? '' : 'hidden'; ?>" onclick="hideForm(this);">
-        <form action="index.php" method="post" class="col s6 scale-transition">
+        <form action="index.php" method="post" class="col s10 m6 scale-transition">
             <h2>Añade un nuevo contacto</h2>
             <input type="hidden" name="_id" value="<?php echo $node->getId(); ?>">
             <div class="input-field row">
@@ -92,7 +82,7 @@ $list = ContactList::selectAll();
                 <label for="name">Nombre*</label>
             </div>
             <div class="input-field row">
-                <input id="phone" name="phone" type="number" class="validate" value="<?php echo $node->getPhone(); ?>" required>
+                <input id="phone" name="phone" type="tel" class="validate" value="<?php echo $node->getPhone(); ?>" required>
                 <label for="phone">Teléfono*</label>
             </div>
             <div class="input-field row">
@@ -108,9 +98,8 @@ $list = ContactList::selectAll();
         </form>
     </div>
 
-    <a href="#" class="btn-floating custom materialize-red lighten-2 hidden" title="edit"><i class="material-icons">edit</i></a>
-    <a href="javascript:remove();" class="btn-floating custom materialize-red lighten-2 hidden" title="delete"><i class="material-icons">delete</i></a>
-    <a href="javascript:showForm();" class="btn-floating custom materialize-red lighten-2" title="create"><i class="material-icons">add</i></a>
+    <a href="javascript:remove();" class="btn-floating btn-large custom materialize-red lighten-2 hidden" title="delete"><i class="material-icons">delete</i></a>
+    <a href="javascript:showForm();" class="btn-floating btn-large custom materialize-red lighten-2" title="create"><i class="material-icons">add</i></a>
 
     <script type="text/javascript" src="js/materialize.min.js"></script>
 </body>
