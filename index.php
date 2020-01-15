@@ -88,19 +88,19 @@ $list = ContactList::selectAll();
             <h2>Añade un nuevo contacto</h2>
             <input type="hidden" name="_id" value="<?php echo $node->getId(); ?>">
             <div class="input-field row">
-                <input id="name" name="name" type="text" class="validate" value="<?php echo $node->getName(); ?>">
+                <input id="name" name="name" type="text" class="validate" value="<?php echo $node->getName(); ?>" required>
                 <label for="name">Nombre*</label>
             </div>
             <div class="input-field row">
-                <input id="phone" name="phone" type="text" class="validate" value="<?php echo $node->getPhone(); ?>">
+                <input id="phone" name="phone" type="number" class="validate" value="<?php echo $node->getPhone(); ?>" required>
                 <label for="phone">Teléfono*</label>
             </div>
             <div class="input-field row">
-                <input id="mail" name="mail" type="text" class="validate" value="<?php echo $node->getMail(); ?>">
+                <input id="mail" name="mail" type="email" class="validate" value="<?php echo $node->getMail(); ?>" required>
                 <label for="mail">Email*</label>
             </div>
             <div class="input-field row">
-                <textarea id="comment" name="comment" class="materialize-textarea"><?php echo $node->getComment(); ?></textarea>
+                <textarea id="comment" name="comment" class="materialize-textarea" required><?php echo $node->getComment(); ?></textarea>
                 <label for="comment">Comentario*</label>
             </div>
             <button class="btn waves-effect waves-light materialize-red lighten-2" type="submit" name="action">Añadir <i class="material-icons right">send</i>
