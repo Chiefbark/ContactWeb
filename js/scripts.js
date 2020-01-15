@@ -1,17 +1,11 @@
-function trClick() {
-    this.classList.toggle('tr-selected');
-    var selected = document.getElementsByClassName('tr-selected').length;
-    if (!selected) {
-        document.querySelector('.btn-floating.custom[title="delete"]').classList.add('hidden');
-        document.querySelector('.btn-floating.custom[title="edit"]').classList.add('hidden');
-        document.querySelector('.btn-floating.custom[title="edit"]').href = '#';
-    } else if (selected > 1) {
-        document.querySelector('.btn-floating.custom[title="edit"]').classList.add('hidden');
-        document.querySelector('.btn-floating.custom[title="edit"]').href = '#';
-    } else {
-        document.querySelector('.btn-floating.custom[title="delete"]').classList.remove('hidden');
-        document.querySelector('.btn-floating.custom[title="edit"]').classList.remove('hidden');
-        document.querySelector('.btn-floating.custom[title="edit"]').href = "index.php?_id=" + document.querySelector('tr.custom.tr-selected').id;
+function itemClick() {
+    if (!event.target.classList.contains('btn-floating')) {
+        this.parentNode.classList.toggle('selected');
+        var selected = document.getElementsByClassName('selected').length;
+        if (!selected)
+            document.querySelector('.btn-floating.custom[title="delete"]').classList.add('hidden');
+        else
+            document.querySelector('.btn-floating.custom[title="delete"]').classList.remove('hidden');
     }
 }
 
@@ -30,14 +24,14 @@ function hideForm() {
 }
 
 function filter(elem) {
-    var rows = document.querySelectorAll('tr.custom');
-    for (var tr of rows)
-        tr.classList.remove('hidden');
+    var items = document.querySelectorAll('#search-content .search-item');
+    for (var item of items)
+        item.classList.remove('hidden');
 
-    var rows = document.querySelectorAll('tr.custom:not([aria-label*="' + elem.value + '"])');
-    if (elem.value && rows)
-        for (var tr of rows)
-            tr.classList.add('hidden');
+    var items = document.querySelectorAll('#search-content .search-item:not([aria-label*="' + elem.value + '"])');
+    if (elem.value && items)
+        for (var item of items)
+            item.classList.add('hidden');
 }
 
 function getAjaxRequest() {
@@ -60,21 +54,18 @@ function getAjaxRequest() {
 var connection = getAjaxRequest();
 
 function remove() {
-    var rows = document.getElementsByClassName('tr-selected');
-    for (var ii = 0; ii < rows.length; ii++) {
-        rows[ii].classList.add('remove');
-    }
+    var items = document.querySelectorAll('#search-content .search-item.selected');
+    for (var ii = 0; ii < items.length; ii++)
+        items[ii].classList.add('remove');
 
     setTimeout(function () {
-        for (var ii = 0; ii < rows.length; ii++) {
-            if (rows[ii].classList.contains('remove'))
-                document.getElementById('records').removeChild(rows[ii--]);
-        }
+        for (var ii = 0; ii < items.length; ii++)
+            document.getElementById('search-content').removeChild(items[ii]);
     }, 500);
 
     var ids = [];
-    for (var tr of rows)
-        ids.push(tr.id);
+    for (var item of items)
+        ids.push(item.id);
 
     setTimeout(function () {
         delete_ajax(ids);
