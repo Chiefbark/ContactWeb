@@ -44,6 +44,14 @@ class DAOContact
      */
     public function select($_id)
     {
+        $query = new MongoDB\Driver\Query(['_id' => new MongoDB\BSON\ObjectId($_id)]);
+        $rows = $this->conn->executeQuery("universidad.estudiantes", $query);
+        $arr = [];
+        foreach ($rows as $row) {
+            $node = new Contact($row->_id, $row->name, $row->phone, $row->mail, $row->comment);
+            array_push($arr, $node);
+        }
+        return $arr[0];
     }
 
     /**
@@ -52,6 +60,15 @@ class DAOContact
      */
     public function insert($contact)
     {
+        $bulk = new MongoDB\Driver\BulkWrite;
+        $doc = array(
+            'name' => $contact->getName(),
+            'phone' => $contact->getPhone(),
+            'mail' => $contact->getMail(),
+            'comment' => $contact->getComment()
+        );
+        $bulk->insert($doc);
+        $this->conn->executeBulkWrite('universidad.estudiantes', $bulk);
     }
 
     /**
@@ -60,6 +77,16 @@ class DAOContact
      */
     public function update($contact)
     {
+        $bulk = new MongoDB\Driver\BulkWrite;
+        $filter = ['_id' => new MongoDB\BSON\ObjectId($contact->getId())];
+        $new = ['$set' => [
+            'name' => $contact->getName(),
+            'phone' => $contact->getPhone(),
+            'mail' => $contact->getMail(),
+            'comment' => $contact->getComment()
+        ]];
+        $bulk->update($filter, $new);
+        $this->conn->executeBulkWrite('universidad.estudiantes', $bulk);
     }
 
     /**
@@ -68,5 +95,9 @@ class DAOContact
      */
     public function delete($contact)
     {
+        $bulk = new MongoDB\Driver\BulkWrite;
+        $filter = ['_id' => new MongoDB\BSON\ObjectId($contact->getId())];
+        $bulk->delete($filter);
+        $this->conn->executeBulkWrite('universidad.estudiantes', $bulk);
     }
 }
