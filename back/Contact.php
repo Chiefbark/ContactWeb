@@ -223,13 +223,17 @@ class Contact
     public function getHTML()
     {
         $content = '';
-        $content .= "<tr class=\"custom\" aria-label=\"" . strtolower($this->getName()) . "\" id=\"" . $this->getId() . "\">";
-        $content .= "<td>" . $this->getName() . "</td>";
-        $content .= "<td>" . $this->getPhone() . "</td>";
-        $content .= "<td>" . $this->getMail() . "</td>";
-        $content .= "<td class=\"\" style=\"max-width: 200px;\">" . $this->getComment() . "</td>";
-        $content .= "</tr>";
-
+        $content .= '<div class="col s12 m6 search-item" aria-label="' . strtolower($this->getName()) . '" id="' . $this->getId() . '">';
+        $content .= '<div class="card grey lighten-4">';
+        $content .= '<div class="card-content">';
+        $content .= '<a href="index.php?_id=' . $this->getId() . '" class="btn-floating materialize-red lighten-2 right"><i class="material-icons">edit</i></a>';
+        $content .= '<span class="card-title">' . $this->getName() . '</span>';
+        $content .= '<div class="row">';
+        $content .= '<p class="row valign-wrapper"><i class="material-icons left materialize-red-text lighten-2" style="font-size: 20pt">local_phone</i>' . $this->getPhone() . '</p>';
+        $content .= '<p class="row valign-wrapper"><i class="material-icons left materialize-red-text lighten-2" style="font-size: 20pt">email</i>' . $this->getMail() . '</p>';
+        $content .= '</div>';
+        $content .= '<p>' . $this->getComment() . '</p>';
+        $content .= '</div></div></div>';
         return $content;
     }
 
