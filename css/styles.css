@@ -94,6 +94,15 @@ html {
   display: none !important;
 }
 
+#search-content .search-item > div {
+  -webkit-transition: background-color .25s ease;
+  transition: background-color .25s ease;
+}
+
+#search-content .search-item > div:hover {
+  background-color: #dfdfdf !important;
+}
+
 #search-content .search-item.selected > div {
   background-color: #fdeaeb !important;
 }
